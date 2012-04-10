@@ -1,0 +1,22 @@
+{
+  "author": "Eric Redmond <eric.redmond@gmail.com>",
+  "name": "codesio",
+  "description": "HTTP Code Reply Server",
+  "version": "0.1.0",
+  "preferGlobal": "true",
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/coderoshi/codesio.git"
+  },
+  "keywords": ["apperjack", "codes", "http", "errors"],
+  "engines": {
+    "node": "~>0.6.0"
+  },
+  "dependencies": {
+    "coffee-script": "~>1.2.0",
+    "jade": "~>0.21.0",
+    "bricks": "~>1.1.4",
+    "bricks-compress": "~>0.2.0",
+    "servitude": "~>0.2.0"
+  }
+}
