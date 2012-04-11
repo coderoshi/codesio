@@ -5,16 +5,31 @@ servitude = require('servitude')
 mimes     = {
   'txt': 'text/plain'
   'json': 'application/json'
+  'xml': 'application/xml'
 }
 
 codes = (req, res)->
   path = url.parse(req.url).pathname.toString().replace(/^\//, '')
   code = path.replace(/\..*$/, '')
-  type = path.replace(/[^\.]+\./, '')
-  if mime = mimes[type]
-    res.setHeader('Content-Type', mime)
+  type = if path.indexOf('.') >= 0 then path.replace(/[^\.]+\./, '') else null
+  if type
+    if mime = mimes[type]
+      res.setHeader('Content-Type', mime)
+    else
+      res.setHeader('Content-Type', "text/#{type}")
+      res.write(code)
   else
-    res.setHeader('Content-Type', "text/#{type}")
+    res.setHeader('Content-Type', "text/html")
+    res.write(code)
+
+  switch type
+    when 'xml'
+      res.write("<code>#{code}</code>")
+    when 'json'
+      res.write("{\"code\":\"#{code}\"}")
+    when 'txt'
+      res.write(code)
+
   res.statusCode(code)
   res.end()
 
