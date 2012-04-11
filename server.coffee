@@ -1,6 +1,9 @@
 url       = require('url')
 bricks    = require('bricks')
 servitude = require('servitude')
+fs   = require('fs')
+path = require('path')
+url  = require('url')
 
 mimes     = {
   'txt': 'text/plain'
@@ -36,7 +39,18 @@ codes = (req, res)->
 
 appServer = new bricks.appserver()
 appServer.addRoute("/servitude/(.+)", servitude, basedir: "./servitude")
-appServer.addRoute(".+", codes)
+appServer.addRoute "^/$", (req, res)->
+  file = './views/index.html'
+  console.log file
+  fs.readFile file, "binary", (err, data)->
+    if err?
+      res.next()
+    else
+      res.write(data)
+      res.end()
+
+
+appServer.addRoute("\\d\\d\\d(\\..+)?", codes)
 appServer.addRoute(".+", appServer.plugins.errorhandler, section: 'final')
 
 server = appServer.createServer()
