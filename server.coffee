@@ -31,6 +31,7 @@ codes = (req, res)->
       res.write(code)
 
   res.statusCode(code)
+  res.write('')
   res.end()
 
 appServer = new bricks.appserver()
